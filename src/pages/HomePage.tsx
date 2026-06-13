@@ -232,37 +232,19 @@ export default function HomePage() {
             transition={{ duration: 0.25 }}
             className="flex flex-col items-center gap-4 w-full"
           >
-            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <motion.button
-                whileHover={{ scale: 1.06 }}
-                whileTap={{ scale: 0.94 }}
-                onClick={() => handlePull(1)}
-                disabled={pullsAvailable < 1}
-                className="w-full sm:w-auto px-8 py-4 sm:py-3.5 font-semibold rounded-xl text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all text-base"
-                style={{
-                  background: 'linear-gradient(135deg, #c362ff, #a040dd)',
-                  boxShadow: '0 0 20px rgba(195,98,255,0.4)',
-                }}
-              >
-                Открыть ×1
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.06 }}
-                whileTap={{ scale: 0.94 }}
-                onClick={() => handlePull(10)}
-                disabled={pullsAvailable < 10}
-                className="w-full sm:w-auto px-8 py-4 sm:py-3.5 font-semibold rounded-xl text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all text-base"
-                style={{
-                  background: 'linear-gradient(135deg, #f472b6, #c362ff)',
-                  boxShadow: '0 0 20px rgba(244,114,182,0.4)',
-                }}
-              >
-                Открыть ×10
-              </motion.button>
-            </div>
-            {pullsAvailable >= 10 && (
-              <p className="text-xs text-game-muted text-center">✦ x10 гарантирует минимум 1 Rare</p>
-            )}
+            <motion.button
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.94 }}
+              onClick={() => handlePull(1)}
+              disabled={pullsAvailable < 1}
+              className="w-full sm:w-auto px-10 py-4 font-semibold rounded-xl text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all text-base"
+              style={{
+                background: 'linear-gradient(135deg, #c362ff, #a040dd)',
+                boxShadow: '0 0 20px rgba(195,98,255,0.4)',
+              }}
+            >
+              Открыть ×1
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
