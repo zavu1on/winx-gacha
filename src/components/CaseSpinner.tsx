@@ -80,16 +80,16 @@ export function CaseSpinner({ result, pool, duration = 4.5, onComplete }: CaseSp
       <div
         ref={containerRef}
         className="overflow-hidden relative rounded-xl"
-        style={{ height: CARD_H + 16, border: `1px solid #2a1a4a` }}
+        style={{ height: CARD_H + 16, border: `1px solid rgba(195,98,255,0.25)`, borderRadius: '1rem' }}
       >
         {/* Fade masks */}
         <div
           className="absolute inset-y-0 left-0 w-28 z-10 pointer-events-none"
-          style={{ background: 'linear-gradient(to right, #0d0a1a ee, transparent)' }}
+          style={{ background: 'linear-gradient(to right, #160e2e ee, transparent)' }}
         />
         <div
           className="absolute inset-y-0 right-0 w-28 z-10 pointer-events-none"
-          style={{ background: 'linear-gradient(to left, #0d0a1a ee, transparent)' }}
+          style={{ background: 'linear-gradient(to left, #160e2e ee, transparent)' }}
         />
 
         {/* Center highlight bar */}

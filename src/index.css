@@ -6,40 +6,46 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --color-bg: #0d0a1a;
-  --color-surface: #1a1033;
-  --color-primary: #c84bff;
-  --color-secondary: #ff69b4;
-  --color-gold: #ffd700;
-  --color-rare: #a78bfa;
-  --color-common: #6b7280;
-  --color-text: #f0e6ff;
-  --color-muted: #8b7aa8;
-  /* shadcn tokens overridden to match game theme */
-  --background: #0d0a1a;
-  --foreground: #f0e6ff;
-  --card: #1a1033;
-  --card-foreground: #f0e6ff;
-  --popover: #1a1033;
-  --popover-foreground: #f0e6ff;
-  --primary: #c84bff;
-  --primary-foreground: #f0e6ff;
-  --secondary: #2a1a4a;
-  --secondary-foreground: #f0e6ff;
-  --muted: #2a1a4a;
-  --muted-foreground: #8b7aa8;
-  --accent: #2a1a4a;
-  --accent-foreground: #f0e6ff;
+  /* ── Нежно-фиолетовая палитра ── */
+  --color-bg: #160e2e;
+  --color-surface: #211340;
+  --color-surface2: #2d1a56;
+  --color-primary: #c362ff;
+  --color-secondary: #f472b6;
+  --color-gold: #f5d060;
+  --color-rare: #c4aaff;
+  --color-common: #8b87a8;
+  --color-text: #f5eeff;
+  --color-muted: #9d86c8;
+  --color-border: #3a2260;
+
+  /* shadcn tokens */
+  --background: #160e2e;
+  --foreground: #f5eeff;
+  --card: #211340;
+  --card-foreground: #f5eeff;
+  --popover: #2d1a56;
+  --popover-foreground: #f5eeff;
+  --primary: #c362ff;
+  --primary-foreground: #f5eeff;
+  --secondary: #2d1a56;
+  --secondary-foreground: #f5eeff;
+  --muted: #2d1a56;
+  --muted-foreground: #9d86c8;
+  --accent: #3a2260;
+  --accent-foreground: #f5eeff;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #2a1a4a;
-  --input: #2a1a4a;
-  --ring: #c84bff;
+  --border: #3a2260;
+  --input: #2d1a56;
+  --ring: #c362ff;
+  --radius: 0.75rem;
+
+  /* Chart / sidebar (keep defaults) */
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -53,9 +59,9 @@
 @theme inline {
   --font-heading: 'Cinzel', serif;
   --font-sans: 'Inter', sans-serif;
-  /* game custom colors exposed to Tailwind */
   --color-game-bg: var(--color-bg);
   --color-game-surface: var(--color-surface);
+  --color-game-surface2: var(--color-surface2);
   --color-game-primary: var(--color-primary);
   --color-game-secondary: var(--color-secondary);
   --color-game-gold: var(--color-gold);
@@ -63,6 +69,8 @@
   --color-game-common: var(--color-common);
   --color-game-text: var(--color-text);
   --color-game-muted: var(--color-muted);
+  --color-game-border: var(--color-border);
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -103,15 +111,89 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(195, 98, 255, 0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 80% 90%, rgba(244, 114, 182, 0.10) 0%, transparent 60%);
+    background-attachment: fixed;
   }
   html {
     @apply font-sans;
   }
+}
+
+/* ── Decorative sparkles via pseudo-elements ── */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.8); }
+  50%       { opacity: 0.7;  transform: scale(1.2); }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes floatY-slow {
+  0%, 100% { transform: translateY(0px) rotate(-3deg); }
+  50%       { transform: translateY(-18px) rotate(3deg); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(195, 98, 255, 0.3); }
+  50%       { box-shadow: 0 0 28px rgba(195, 98, 255, 0.65); }
+}
+
+@keyframes spin-ring {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.float-anim       { animation: floatY 3s ease-in-out infinite; }
+.float-anim-slow  { animation: floatY-slow 5s ease-in-out infinite; }
+.pulse-glow-anim  { animation: pulse-glow 2.5s ease-in-out infinite; }
+
+/* ── Gradient text utility ── */
+.gradient-text {
+  background: linear-gradient(135deg, #c362ff 0%, #f472b6 50%, #f5d060 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glassy card ── */
+.glass-card {
+  background: rgba(33, 19, 64, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(195, 98, 255, 0.2);
+}
+
+/* ── Shimmer badge ── */
+.shimmer-gold {
+  background: linear-gradient(90deg, #f5d060, #ffe89a, #f5d060);
+  background-size: 200% auto;
+  animation: shimmer 2s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Sparkle dots scattered in bg (added via Layout) ── */
+.sparkle-dot {
+  position: fixed;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(195,98,255,0.8) 0%, transparent 70%);
+  pointer-events: none;
+  animation: twinkle var(--duration, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  z-index: 0;
 }

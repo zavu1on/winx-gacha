@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { CaseSpinner } from '@/components/CaseSpinner'
 import { ALL_ITEMS, COMMONS } from '@/data/items'
 import { CHARACTERS } from '@/data/characters'
+import { playClick, playSpinStop } from '@/lib/sound'
 import type { PullResult } from '@/types'
 
 type Phase = 'spinning' | 'reveal'
@@ -49,8 +50,11 @@ export default function PullPage() {
   }, [results, navigate])
 
   const handleSpinComplete = useCallback(() => {
+    if (spinnerResult) {
+      playSpinStop(spinnerResult.item.rarity)
+    }
     setPhase('reveal')
-  }, [])
+  }, [spinnerResult])
 
   if (!results || !spinnerResult) return null
 
@@ -171,16 +175,18 @@ export default function PullPage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/')}
-                className="px-6 py-3 bg-game-surface text-game-text rounded-xl font-semibold border border-game-primary/30"
+                onClick={() => { playClick(); navigate('/') }}
+                className="px-6 py-3 text-game-text rounded-xl font-semibold"
+                style={{ backgroundColor: 'rgba(33,19,64,0.8)', border: '1px solid rgba(195,98,255,0.3)' }}
               >
                 Ещё раз
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/roster')}
-                className="px-6 py-3 bg-game-primary text-white rounded-xl font-semibold"
+                onClick={() => { playClick(); navigate('/roster') }}
+                className="px-6 py-3 text-white rounded-xl font-semibold"
+                style={{ background: 'linear-gradient(135deg, #c362ff, #a040dd)', boxShadow: '0 0 20px rgba(195,98,255,0.35)' }}
               >
                 В ростер
               </motion.button>
