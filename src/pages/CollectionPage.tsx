@@ -111,20 +111,19 @@ export default function CollectionPage() {
       className="max-w-6xl mx-auto px-4 py-10"
     >
       {/* Header */}
-      <div className="flex items-end justify-between mb-6 gap-4">
+      <div className="flex items-end justify-between mb-5 sm:mb-6 gap-3">
         <div>
-          <h1 className="font-heading text-4xl font-bold gradient-text">Коллекция</h1>
-          <p className="text-game-muted text-sm mt-1">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold gradient-text">Коллекция</h1>
+          <p className="text-game-muted text-xs sm:text-sm mt-1">
             Нажми на предмет для подробностей
           </p>
         </div>
         <div className="text-right shrink-0">
-          <div className="text-game-primary font-bold text-xl font-heading">
+          <div className="text-game-primary font-bold text-lg sm:text-xl font-heading">
             {current.length}<span className="text-game-muted font-normal text-base"> / {total}</span>
           </div>
           <div className="text-game-muted text-xs">{pct}% получено</div>
-          {/* Mini progress bar */}
-          <div className="w-24 h-1.5 rounded-full mt-1.5" style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}>
+          <div className="w-20 sm:w-24 h-1.5 rounded-full mt-1.5" style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}>
             <div
               className="h-1.5 rounded-full transition-all duration-700"
               style={{ width: `${pct}%`, background: 'linear-gradient(90deg, #c362ff, #f472b6)' }}
@@ -134,8 +133,10 @@ export default function CollectionPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={handleTabChange}>
+        {/* Horizontal scroll on mobile so all 5 tabs fit */}
+        <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mb-5 sm:mb-6">
         <TabsList
-          className="mb-6 w-full sm:w-auto"
+          className="w-max sm:w-auto"
           style={{ backgroundColor: 'rgba(33,19,64,0.8)', border: '1px solid rgba(195,98,255,0.2)' }}
         >
           {(['all', 'characters', 'outfits', 'accessories', 'commons'] as const).map((tab) => {
@@ -156,6 +157,7 @@ export default function CollectionPage() {
             )
           })}
         </TabsList>
+        </div>
 
         {(['all', 'characters', 'outfits', 'accessories', 'commons'] as const).map((tab) => (
           <TabsContent key={tab} value={tab}>

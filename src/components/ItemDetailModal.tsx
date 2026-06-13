@@ -53,31 +53,30 @@ export function ItemDetailModal({ item, count = 1, open, onClose }: Props) {
           style={{ background: `linear-gradient(90deg, transparent, ${color}, transparent)` }}
         />
 
-        <div className="p-6 flex flex-col items-center gap-5">
-          {/* Image */}
+        <div className="p-4 pb-5 flex flex-col items-center gap-4">
+          {/* Image — full width */}
           <motion.div
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: 'spring', stiffness: 220, damping: 20 }}
-            className="relative rounded-2xl overflow-hidden flex items-center justify-center"
+            className="relative w-full rounded-2xl overflow-hidden flex items-center justify-center"
             style={{
-              width: 160,
-              height: 200,
-              backgroundColor: `${color}12`,
+              aspectRatio: '3/4',
+              backgroundColor: `${color}10`,
               border: `1.5px solid ${color}40`,
-              boxShadow: `0 0 24px ${color}33`,
+              boxShadow: `0 0 32px ${color}33`,
             }}
           >
             <img
               src={item.svgPath}
               alt={item.nameRu}
-              className="w-full h-full object-contain object-top p-2"
+              className="w-full h-full object-contain object-top p-3"
             />
             {item.rarity === 'legendary' && (
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: `radial-gradient(ellipse at 50% 110%, ${color}22 0%, transparent 65%)`,
+                  background: `radial-gradient(ellipse at 50% 110%, ${color}28 0%, transparent 65%)`,
                 }}
               />
             )}

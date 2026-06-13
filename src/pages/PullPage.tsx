@@ -61,7 +61,7 @@ export default function PullPage() {
   const spinDuration = isX10 ? 2.8 : 4.5
 
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-start px-4 py-10 max-w-4xl mx-auto">
+    <div className="min-h-[80vh] flex flex-col items-center justify-start px-3 sm:px-4 py-6 sm:py-10 max-w-4xl mx-auto">
       <AnimatePresence mode="wait">
         {phase === 'spinning' && (
           <motion.div
@@ -70,10 +70,10 @@ export default function PullPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3 }}
-            className="w-full flex flex-col items-center gap-8"
+            className="w-full flex flex-col items-center gap-6 sm:gap-8"
           >
             <div className="text-center">
-              <h1 className="font-heading text-3xl font-bold text-game-text mb-1">
+              <h1 className="font-heading text-2xl sm:text-3xl font-bold text-game-text mb-1">
                 {isX10 ? 'Открытие ×10' : 'Открытие'}
               </h1>
               <p className="text-game-muted text-sm">Следи за стрелкой...</p>
@@ -96,14 +96,14 @@ export default function PullPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
-            className="w-full flex flex-col items-center gap-8"
+            className="w-full flex flex-col items-center gap-5 sm:gap-8"
           >
-            <h1 className="font-heading text-3xl font-bold text-game-text">
+            <h1 className="font-heading text-2xl sm:text-3xl font-bold text-game-text">
               {isX10 ? `Получено ${results.length} предметов` : 'Результат'}
             </h1>
 
             <div
-              className={`grid gap-4 w-full ${
+              className={`grid gap-3 sm:gap-4 w-full ${
                 isX10
                   ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-5'
                   : 'grid-cols-1 justify-items-center'
@@ -123,8 +123,8 @@ export default function PullPage() {
                       stiffness: 260,
                       damping: 20,
                     }}
-                    className={`flex flex-col items-center gap-3 rounded-2xl p-4 ${
-                      isX10 ? 'w-full' : 'w-48'
+                    className={`flex flex-col items-center gap-2 sm:gap-3 rounded-2xl p-3 sm:p-4 ${
+                      isX10 ? 'w-full' : 'w-40 sm:w-48'
                     }`}
                     style={{
                       backgroundColor: `${color}15`,
@@ -153,17 +153,14 @@ export default function PullPage() {
                     </div>
 
                     <div className="text-center">
-                      <p
-                        className="font-heading font-semibold text-sm"
-                        style={{ color }}
-                      >
+                      <p className="font-heading font-semibold text-xs sm:text-sm leading-tight" style={{ color }}>
                         {r.item.nameRu}
                       </p>
-                      <p className="text-xs font-bold mt-0.5" style={{ color }}>
+                      <p className="text-[10px] sm:text-xs font-bold mt-0.5" style={{ color }}>
                         {r.item.rarity === 'legendary' ? '✦ LEGENDARY ✦' : r.item.rarity === 'rare' ? '◆ RARE' : '◇ COMMON'}
                       </p>
                       {r.isDuplicate && (
-                        <p className="text-xs text-game-muted mt-0.5">+1 Star Power</p>
+                        <p className="text-[10px] sm:text-xs text-game-muted mt-0.5">+1 Star Power</p>
                       )}
                     </div>
                   </motion.div>
@@ -171,12 +168,12 @@ export default function PullPage() {
               })}
             </div>
 
-            <div className="flex gap-4 mt-4">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto mt-2 sm:mt-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => { playClick(); navigate('/') }}
-                className="px-6 py-3 text-game-text rounded-xl font-semibold"
+                className="w-full sm:w-auto px-6 py-3.5 sm:py-3 text-game-text rounded-xl font-semibold"
                 style={{ backgroundColor: 'rgba(33,19,64,0.8)', border: '1px solid rgba(195,98,255,0.3)' }}
               >
                 Ещё раз
@@ -185,7 +182,7 @@ export default function PullPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => { playClick(); navigate('/roster') }}
-                className="px-6 py-3 text-white rounded-xl font-semibold"
+                className="w-full sm:w-auto px-6 py-3.5 sm:py-3 text-white rounded-xl font-semibold"
                 style={{ background: 'linear-gradient(135deg, #c362ff, #a040dd)', boxShadow: '0 0 20px rgba(195,98,255,0.35)' }}
               >
                 В ростер

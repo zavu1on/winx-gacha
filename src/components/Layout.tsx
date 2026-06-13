@@ -33,11 +33,18 @@ function PullsCounter() {
   )
 }
 
-const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+// Desktop nav link
+const desktopLinkClass = ({ isActive }: { isActive: boolean }) =>
   `text-sm font-medium transition-all duration-200 ${
     isActive
       ? 'text-game-primary drop-shadow-[0_0_8px_rgba(195,98,255,0.7)]'
       : 'text-game-muted hover:text-game-text'
+  }`
+
+// Mobile bottom tab link
+const mobileLinkClass = ({ isActive }: { isActive: boolean }) =>
+  `flex flex-col items-center gap-0.5 px-5 py-2 transition-all duration-200 ${
+    isActive ? 'text-game-primary' : 'text-game-muted'
   }`
 
 export default function Layout() {
@@ -59,30 +66,72 @@ export default function Layout() {
         />
       ))}
 
+      {/* ── Header ── */}
       <header className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-game-border/60 backdrop-blur-md">
         <nav className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+          {/* Logo */}
           <NavLink to="/" className="font-heading text-lg font-bold gradient-text">
             ✦ Winx Gacha
           </NavLink>
-          <div className="flex items-center gap-6">
-            <NavLink to="/" className={navLinkClass} end onClick={playTabSwitch}>
+
+          {/* Desktop links — hidden on mobile */}
+          <div className="hidden sm:flex items-center gap-6">
+            <NavLink to="/" className={desktopLinkClass} end onClick={playTabSwitch}>
               Главная
             </NavLink>
-            <NavLink to="/roster" className={navLinkClass} onClick={playTabSwitch}>
+            <NavLink to="/roster" className={desktopLinkClass} onClick={playTabSwitch}>
               Ростер
             </NavLink>
-            <NavLink to="/collection" className={navLinkClass} onClick={playTabSwitch}>
+            <NavLink to="/collection" className={desktopLinkClass} onClick={playTabSwitch}>
               Коллекция
             </NavLink>
             <div className="h-4 w-px bg-game-border" />
             <PullsCounter />
           </div>
+
+          {/* Mobile: pulls counter in header */}
+          <div className="sm:hidden">
+            <PullsCounter />
+          </div>
         </nav>
       </header>
 
-      <main className="flex-1 pt-14 relative z-10">
+      {/* ── Main content ── */}
+      {/* pb-20 on mobile to clear bottom tab bar */}
+      <main className="flex-1 pt-14 pb-20 sm:pb-0 relative z-10">
         <Outlet />
       </main>
+
+      {/* ── Mobile bottom tab bar ── */}
+      <nav
+        className="sm:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t border-game-border/60 backdrop-blur-md"
+        style={{ backgroundColor: 'rgba(22,14,46,0.92)' }}
+      >
+        <NavLink to="/" end className={mobileLinkClass} onClick={playTabSwitch}>
+          {({ isActive }) => (
+            <>
+              <span className="text-xl leading-none">{isActive ? '🏠' : '🏡'}</span>
+              <span className="text-[10px] font-medium">Главная</span>
+            </>
+          )}
+        </NavLink>
+        <NavLink to="/roster" className={mobileLinkClass} onClick={playTabSwitch}>
+          {({ isActive }) => (
+            <>
+              <span className="text-xl leading-none">{isActive ? '👑' : '🌟'}</span>
+              <span className="text-[10px] font-medium">Ростер</span>
+            </>
+          )}
+        </NavLink>
+        <NavLink to="/collection" className={mobileLinkClass} onClick={playTabSwitch}>
+          {({ isActive }) => (
+            <>
+              <span className="text-xl leading-none">{isActive ? '💎' : '🔮'}</span>
+              <span className="text-[10px] font-medium">Коллекция</span>
+            </>
+          )}
+        </NavLink>
+      </nav>
     </div>
   )
 }

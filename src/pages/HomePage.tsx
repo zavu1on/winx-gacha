@@ -147,9 +147,9 @@ export default function HomePage() {
       className="max-w-2xl mx-auto px-4 py-10 flex flex-col items-center gap-8"
     >
       {/* Hero section */}
-      <div className="w-full relative">
-        {/* Decorative fairy silhouettes */}
-        <div className="absolute -left-6 top-0 bottom-0 w-28 pointer-events-none overflow-hidden">
+      <div className="w-full relative overflow-hidden">
+        {/* Decorative fairy silhouettes — only on sm+ to avoid mobile overflow */}
+        <div className="hidden sm:block absolute -left-6 top-0 bottom-0 w-28 pointer-events-none">
           <img
             src="/assets/characters/bloom.png"
             alt=""
@@ -158,7 +158,7 @@ export default function HomePage() {
             style={{ animationDelay: '0s', filter: 'blur(1px) saturate(0.3)' }}
           />
         </div>
-        <div className="absolute -right-6 top-0 bottom-0 w-28 pointer-events-none overflow-hidden">
+        <div className="hidden sm:block absolute -right-6 top-0 bottom-0 w-28 pointer-events-none">
           <img
             src="/assets/characters/stella.png"
             alt=""
@@ -168,31 +168,27 @@ export default function HomePage() {
           />
         </div>
 
-        <div className="text-center relative z-10">
-          <h1 className="font-heading text-5xl sm:text-6xl font-bold gradient-text mb-1 tracking-wide">
+        <div className="text-center relative z-10 py-2">
+          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-bold gradient-text mb-1 tracking-wide">
             Winx Gacha
           </h1>
-          <p className="text-game-muted text-base mt-1">Открой своих любимых персонажей ✦</p>
+          <p className="text-game-muted text-sm sm:text-base mt-1">Открой своих любимых персонажей ✦</p>
         </div>
       </div>
 
       {/* Stats bar */}
-      <div
-        className="w-full rounded-2xl px-5 py-4 glass-card flex items-center justify-around gap-4"
-      >
+      <div className="w-full rounded-2xl px-4 py-4 glass-card grid grid-cols-3 gap-2">
         <div className="text-center">
-          <div className="text-2xl font-bold gradient-text font-heading">{unlockedCount}</div>
-          <div className="text-xs text-game-muted mt-0.5">Персонажей</div>
+          <div className="text-xl sm:text-2xl font-bold gradient-text font-heading">{unlockedCount}</div>
+          <div className="text-[11px] sm:text-xs text-game-muted mt-0.5">Открыто</div>
         </div>
-        <div className="h-8 w-px bg-game-border" />
-        <div className="text-center">
-          <div className="text-2xl font-bold text-game-gold font-heading shimmer-gold">{totalChars}</div>
-          <div className="text-xs text-game-muted mt-0.5">Всего фей</div>
+        <div className="text-center border-x border-game-border">
+          <div className="text-xl sm:text-2xl font-bold text-game-gold font-heading shimmer-gold">{totalChars}</div>
+          <div className="text-[11px] sm:text-xs text-game-muted mt-0.5">Фей всего</div>
         </div>
-        <div className="h-8 w-px bg-game-border" />
         <div className="text-center">
-          <div className="text-2xl font-bold text-game-primary font-heading">{pullsAvailable}</div>
-          <div className="text-xs text-game-muted mt-0.5">Прокруток</div>
+          <div className="text-xl sm:text-2xl font-bold text-game-primary font-heading">{pullsAvailable}</div>
+          <div className="text-[11px] sm:text-xs text-game-muted mt-0.5">Прокруток</div>
         </div>
       </div>
 
@@ -236,13 +232,13 @@ export default function HomePage() {
             transition={{ duration: 0.25 }}
             className="flex flex-col items-center gap-4 w-full"
           >
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <motion.button
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.94 }}
                 onClick={() => handlePull(1)}
                 disabled={pullsAvailable < 1}
-                className="px-8 py-3.5 font-semibold rounded-xl text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                className="w-full sm:w-auto px-8 py-4 sm:py-3.5 font-semibold rounded-xl text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all text-base"
                 style={{
                   background: 'linear-gradient(135deg, #c362ff, #a040dd)',
                   boxShadow: '0 0 20px rgba(195,98,255,0.4)',
@@ -255,7 +251,7 @@ export default function HomePage() {
                 whileTap={{ scale: 0.94 }}
                 onClick={() => handlePull(10)}
                 disabled={pullsAvailable < 10}
-                className="px-8 py-3.5 font-semibold rounded-xl text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                className="w-full sm:w-auto px-8 py-4 sm:py-3.5 font-semibold rounded-xl text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all text-base"
                 style={{
                   background: 'linear-gradient(135deg, #f472b6, #c362ff)',
                   boxShadow: '0 0 20px rgba(244,114,182,0.4)',
@@ -265,7 +261,7 @@ export default function HomePage() {
               </motion.button>
             </div>
             {pullsAvailable >= 10 && (
-              <p className="text-xs text-game-muted">✦ x10 гарантирует минимум 1 Rare</p>
+              <p className="text-xs text-game-muted text-center">✦ x10 гарантирует минимум 1 Rare</p>
             )}
           </motion.div>
         )}

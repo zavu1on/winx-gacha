@@ -64,7 +64,9 @@ export function CaseSpinner({ result, pool, duration = 4.5, onComplete }: CaseSp
   const color = RARITY_COLOR[result.rarity]
 
   return (
-    <div className="w-full relative select-none">
+    // On mobile, scale the whole spinner down so it fits without clipping
+    <div className="w-full relative select-none overflow-hidden"
+      style={{ touchAction: 'none' }}>
       {/* Top pointer */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 z-20 w-0 h-0"
@@ -115,7 +117,7 @@ export function CaseSpinner({ result, pool, duration = 4.5, onComplete }: CaseSp
             return (
               <div
                 key={i}
-                className="flex-shrink-0 flex flex-col items-center justify-between rounded-lg py-2 px-1"
+                className="shrink-0 flex flex-col items-center justify-between rounded-lg py-2 px-1"
                 style={{
                   width: CARD_W,
                   height: CARD_H,
