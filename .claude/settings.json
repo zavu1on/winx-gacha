@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /home/mikhail/projects/winx-gatcha && [ -f tsconfig.json ] && npx tsc --noEmit 2>&1 | head -20 || true"
+          }
+        ]
+      }
+    ]
+  }
+}

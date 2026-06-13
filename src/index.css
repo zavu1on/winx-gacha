@@ -1,0 +1,117 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --color-bg: #0d0a1a;
+  --color-surface: #1a1033;
+  --color-primary: #c84bff;
+  --color-secondary: #ff69b4;
+  --color-gold: #ffd700;
+  --color-rare: #a78bfa;
+  --color-common: #6b7280;
+  --color-text: #f0e6ff;
+  --color-muted: #8b7aa8;
+  /* shadcn tokens overridden to match game theme */
+  --background: #0d0a1a;
+  --foreground: #f0e6ff;
+  --card: #1a1033;
+  --card-foreground: #f0e6ff;
+  --popover: #1a1033;
+  --popover-foreground: #f0e6ff;
+  --primary: #c84bff;
+  --primary-foreground: #f0e6ff;
+  --secondary: #2a1a4a;
+  --secondary-foreground: #f0e6ff;
+  --muted: #2a1a4a;
+  --muted-foreground: #8b7aa8;
+  --accent: #2a1a4a;
+  --accent-foreground: #f0e6ff;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #2a1a4a;
+  --input: #2a1a4a;
+  --ring: #c84bff;
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+@theme inline {
+  --font-heading: 'Cinzel', serif;
+  --font-sans: 'Inter', sans-serif;
+  /* game custom colors exposed to Tailwind */
+  --color-game-bg: var(--color-bg);
+  --color-game-surface: var(--color-surface);
+  --color-game-primary: var(--color-primary);
+  --color-game-secondary: var(--color-secondary);
+  --color-game-gold: var(--color-gold);
+  --color-game-rare: var(--color-rare);
+  --color-game-common: var(--color-common);
+  --color-game-text: var(--color-text);
+  --color-game-muted: var(--color-muted);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
