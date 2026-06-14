@@ -72,7 +72,7 @@ export function executePulls(
     const isLast = i === count - 1
     let pull = singlePull(pityRare, pityLegendary)
 
-    if (isLast && !hasRareOrBetter && pull.rarity === 'common') {
+    if (count >= 10 && isLast && !hasRareOrBetter && pull.rarity === 'common') {
       pull = { rarity: 'rare', newPityRare: 0, newPityLegendary: pull.newPityLegendary }
     }
 
