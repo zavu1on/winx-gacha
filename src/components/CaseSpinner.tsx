@@ -1,5 +1,6 @@
-import { useEffect, useRef, useMemo } from 'react'
+import { useEffect, useRef, useMemo, useState } from 'react'
 import { gsap } from 'gsap'
+import confetti from 'canvas-confetti'
 import type { GameItem } from '@/types'
 
 const CARD_W = 116
@@ -15,6 +16,12 @@ const RARITY_COLOR: Record<string, string> = {
   common: '#6b7280',
 }
 
+const RARITY_CONFETTI_COLORS: Record<string, string[]> = {
+  legendary: ['#ffd700', '#ffb300', '#fff176', '#fffde7', '#c84bff'],
+  rare: ['#a78bfa', '#7c3aed', '#ddd6fe', '#c84bff', '#ffffff'],
+  common: ['#6b7280', '#9ca3af', '#d1d5db', '#c84bff', '#ffffff'],
+}
+
 interface CaseSpinnerProps {
   result: GameItem
   pool: GameItem[]
@@ -25,6 +32,8 @@ interface CaseSpinnerProps {
 export function CaseSpinner({ result, pool, duration = 4.5, onComplete }: CaseSpinnerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const stripRef = useRef<HTMLDivElement>(null)
+  const resultCardRef = useRef<HTMLDivElement>(null)
+  const [stopped, setStopped] = useState(false)
 
   const cards = useMemo(() => {
     const arr: GameItem[] = []
@@ -50,23 +59,68 @@ export function CaseSpinner({ result, pool, duration = 4.5, onComplete }: CaseSp
 
     gsap.set(strip, { x: startX })
 
+    const color = RARITY_COLOR[result.rarity]
+    const confettiColors = RARITY_CONFETTI_COLORS[result.rarity]
+
     const tl = gsap.timeline()
     tl.to(strip, {
       x: endX,
       duration,
       ease: 'power4.out',
-      onComplete,
+      onComplete: () => {
+        setStopped(true)
+
+        // Pulse highlight on result card
+        if (resultCardRef.current) {
+          gsap.fromTo(
+            resultCardRef.current,
+            { scale: 1, boxShadow: `0 0 0px ${color}00` },
+            {
+              scale: 1.08,
+              boxShadow: `0 0 32px ${color}cc`,
+              duration: 0.3,
+              ease: 'power2.out',
+              yoyo: true,
+              repeat: 1,
+            }
+          )
+        }
+
+        // Confetti burst
+        const rect = container.getBoundingClientRect()
+        const cx = (rect.left + rect.right) / 2 / window.innerWidth
+        const cy = (rect.top + rect.bottom) / 2 / window.innerHeight
+
+        confetti({
+          particleCount: result.rarity === 'legendary' ? 120 : result.rarity === 'rare' ? 70 : 40,
+          spread: 80,
+          startVelocity: 45,
+          origin: { x: cx, y: cy },
+          colors: confettiColors,
+          scalar: result.rarity === 'legendary' ? 1.4 : 1,
+          gravity: 0.9,
+          ticks: 200,
+        })
+
+        if (result.rarity === 'legendary') {
+          // Second side bursts for legendary
+          setTimeout(() => {
+            confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0.1, y: cy }, colors: confettiColors })
+            confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 0.9, y: cy }, colors: confettiColors })
+          }, 150)
+        }
+
+        onComplete()
+      },
     })
 
     return () => { tl.kill() }
-  }, [cards, duration, onComplete])
+  }, [cards, duration, onComplete, result.rarity])
 
   const color = RARITY_COLOR[result.rarity]
 
   return (
-    // On mobile, scale the whole spinner down so it fits without clipping
-    <div className="w-full relative select-none overflow-hidden"
-      style={{ touchAction: 'none' }}>
+    <div className="w-full relative select-none overflow-hidden" style={{ touchAction: 'none' }}>
       {/* Top pointer */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 z-20 w-0 h-0"
@@ -94,14 +148,15 @@ export function CaseSpinner({ result, pool, duration = 4.5, onComplete }: CaseSp
           style={{ background: 'linear-gradient(to left, #160e2e ee, transparent)' }}
         />
 
-        {/* Center highlight bar */}
+        {/* Center highlight bar — visible only after stop */}
         <div
-          className="absolute inset-y-0 left-1/2 -translate-x-1/2 z-10 pointer-events-none"
+          className="absolute inset-y-0 left-1/2 -translate-x-1/2 z-10 pointer-events-none transition-opacity duration-300"
           style={{
             width: CARD_W + 4,
             borderLeft: `2px solid ${color}`,
             borderRight: `2px solid ${color}`,
             boxShadow: `0 0 20px ${color}66, inset 0 0 20px ${color}11`,
+            opacity: stopped ? 1 : 0,
           }}
         />
 
@@ -117,13 +172,16 @@ export function CaseSpinner({ result, pool, duration = 4.5, onComplete }: CaseSp
             return (
               <div
                 key={i}
+                ref={isResult ? resultCardRef : undefined}
                 className="shrink-0 flex flex-col items-center justify-between rounded-lg py-2 px-1"
                 style={{
                   width: CARD_W,
                   height: CARD_H,
-                  backgroundColor: isResult ? `${c}22` : `${c}0d`,
-                  border: `1.5px solid ${isResult ? c : c + '55'}`,
-                  boxShadow: isResult ? `0 0 12px ${c}55` : 'none',
+                  // All cards look the same during spin; result card highlighted only after stop
+                  backgroundColor: isResult && stopped ? `${c}22` : `${c}0d`,
+                  border: `1.5px solid ${isResult && stopped ? c : c + '44'}`,
+                  boxShadow: isResult && stopped ? `0 0 16px ${c}88` : 'none',
+                  transition: 'background-color 0.2s, border-color 0.2s',
                 }}
               >
                 <img
